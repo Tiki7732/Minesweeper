@@ -6,7 +6,12 @@ class Tile
         @hidden = true
     end
 
-    def print
-        print '*' : @val ? @hidden : !@hidden
+    def to_s
+        hidden? ? (print '*') : (print @val)
     end
+
+    def hidden?
+        @hidden
+    end
+
 end

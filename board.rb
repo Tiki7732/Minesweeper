@@ -9,9 +9,22 @@ class Board
     end
 
     def populate(level)
-        level.times {@grid[rand(0...@grid.length)][rand(0...@grid.length)] = "B"}
+        level.times {@grid[rand(0...@grid.length)][rand(0...@grid.length)].val = "B"}
     end
+
+    def render
+        @grid.each do |row|
+            print "|"
+            row.each do |tile|
+                tile.to_s
+                print "|"
+            end
+            print "\n"
+        end
+    end
+
+    
 end
 
 b = Board.new
-p b.grid
+b.render
