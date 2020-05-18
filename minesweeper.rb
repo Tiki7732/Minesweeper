@@ -9,11 +9,17 @@ class Minesweeper
 
     def reveal(pos)
         @board.reveal_tile(pos)
+        fringe_tiles(pos).each {|tile| reveal(tile)}
     end
 
     def fringe_tiles(pos)
-        finge = []
+        fringe = []
         x, y = pos
+        fringe.push([x-1, y-1], [x-1, y], [x-1, y + 1])
+        fringe.push([x, y-1], [x, y + 1])
+        fringe.push([x+1, y-1], [x+1, y], [x+1, y + 1])
+        fringe.delete_if{|position| position if !valid_pos?(position)}
+        fringe
         
     end
 
@@ -29,4 +35,4 @@ class Minesweeper
 end
 
 m = Minesweeper.new
-p m.valid_pos?([-1, 2])
+
