@@ -1,4 +1,5 @@
 require_relative "tile"
+require 'byebug'
 class Board
 
     attr_reader :grid
@@ -12,15 +13,30 @@ class Board
         until bombs.empty?
             x = rand(0...@grid.length)
             y = rand(0...@grid.length)
-            @grid[x][y].val = bombs.pop if @grid[x][y].val.nil?
+            if @grid[x][y].val.nil?
+                @grid[x][y].val = bombs.pop 
+                @grid[x][y].bomb = true
+            end
         end
+
+        @grid.each_with_index do |row, ind1|
+            row.each_with_index do |tile, ind2|
+                count = 0
+                fringe_tiles([ind1,ind2]).each {|fringe_tile| count +=1 if self[fringe_tile].bomb?}
+                tile.val = count.to_s if tile.val.nil?
+            end
+        end 
     end
 
     def render
         @grid.each do |row|
             print "|"
             row.each do |tile|
-                tile.to_s
+                if tile.hidden?
+                    print ' '
+                else
+                    tile.to_s
+                end
                 print "|"
             end
             print "\n"
@@ -41,7 +57,8 @@ class Board
         @grid.each do |row|
             print "|"
             row.each do |tile|
-               tile.val.nil? ? (print " ") : (print tile.val)
+               print tile.val if tile.bomb?
+               print " " if !tile.bomb?
                 print "|"
             end
             print "\n"

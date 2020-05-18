@@ -15,6 +15,10 @@ class Minesweeper
     def render()
         @board.render
     end
+
+    def show_bombs
+        @board.show_bombs
+    end
 end
 
 m = Minesweeper.new
@@ -23,5 +27,6 @@ p "----"
 m.reveal([2,2])
 
 m.render
-
+p "++++"
+m.show_bombs
 
