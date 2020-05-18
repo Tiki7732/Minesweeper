@@ -1,5 +1,4 @@
 require_relative "tile"
-require_relative 'player'
 class Board
 
     attr_reader :grid
@@ -9,7 +8,7 @@ class Board
     end
 
     def populate(amount)
-        bombs =Array.new(amount, "B")
+        bombs =Array.new(amount, "*")
         until bombs.empty?
             x = rand(0...@grid.length)
             y = rand(0...@grid.length)
@@ -51,8 +50,9 @@ class Board
 
 end
 
-b = Board.new
-b.render
-b.show_bombs
-b.reveal_tile([1,2])
+# b = Board.new(10,10)
+# b.render
+# print "\n"
+# b.show_bombs
+# b.reveal_tile([1,2])
 
