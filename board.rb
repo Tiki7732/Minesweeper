@@ -34,6 +34,8 @@ class Board
             row.each do |tile|
                 if tile.hidden?
                     print ' '
+                elsif tile.val == "0"
+                    print '_'
                 else
                     tile.to_s
                 end
