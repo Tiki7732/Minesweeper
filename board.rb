@@ -87,6 +87,17 @@ class Board
         true
     end 
 
+    def show_board
+        @grid.each do |row|
+            print "|"
+            row.each do |tile|
+               print tile.val
+                print "|"
+            end
+            print "\n"
+        end
+    end
+
 end
 
 # b = Board.new(10,10)
