@@ -34,7 +34,7 @@ class Board
 
     def reveal_tile(pos)
         x, y = pos
-        puts @grid[x][y].val
+        @grid[x][y].hidden = false
     end
 
     def show_bombs
@@ -47,6 +47,26 @@ class Board
             print "\n"
         end
     end
+
+    def fringe_tiles(pos)
+        fringe = []
+        x, y = pos
+        fringe.push([x-1, y-1], [x-1, y], [x-1, y + 1])
+        fringe.push([x, y-1], [x, y + 1])
+        fringe.push([x+1, y-1], [x+1, y], [x+1, y + 1])
+        fringe.delete_if{|position| position if !valid_pos?(position)}
+        fringe
+    end
+
+    def valid_pos?(pos)
+        x, y = pos
+        if x < 0 || x >= @grid.length
+            return false
+        elsif y < 0 || y >= @grid.length
+            return false            
+        end 
+        true
+    end 
 
 end
 
