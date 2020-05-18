@@ -9,7 +9,7 @@ class Tile
     end
 
     def to_s
-        print @val
+        @val == "0" ? (print "_") : (print @val)
     end
 
     def hidden?
@@ -18,6 +18,10 @@ class Tile
 
     def bomb?
         @bomb
+    end
+
+    def flagged?
+        @flagged
     end
 
 end
