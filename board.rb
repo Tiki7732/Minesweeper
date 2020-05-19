@@ -55,7 +55,7 @@ class Board
         end
     end
 
-    def all_tiles_reveald?
+    def all_tiles_revealed?
         @grid.each do |row|
             return true if row.all?{|tile| !tile.hidden?}
         end
@@ -101,7 +101,7 @@ class Board
         elsif y < 0 || y >= @grid.length
             return false            
         end 
-        return false if !@grid[x][y].hidden?
+         return false if !@grid[x][y].hidden?
         true
     end 
 
@@ -118,9 +118,9 @@ class Board
 
 end
 
-b = Board.new()
-b.render
-p b.all_tiles_reveald?
+# b = Board.new()
+# b.render
+# p b.all_tiles_reveald?
 # print "\n"
 # b.show_bombs
 # b.reveal_tile([1,2])
