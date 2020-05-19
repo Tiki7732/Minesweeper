@@ -5,7 +5,7 @@ class Board
     attr_reader :grid
     def initialize(size = 9, level = 1)
         @grid = Array.new(size){Array.new(size) {Tile.new}}
-        populate(size*level)
+        populate((size / 4 * 3) * level)
     end
 
     def populate(amount)
