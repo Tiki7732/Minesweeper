@@ -14,7 +14,6 @@ class Minesweeper
     end
 
     def reveal_fringe(pos)
-        #debugger
         fringe = @board.fringe_tiles(pos)
         fringe.reject!{|tile| tile if @board[tile].bomb? || @board[tile].flagged?}
         while !fringe.empty?
@@ -26,7 +25,6 @@ class Minesweeper
             else
                 reveal(fringe.shift)
             end
-            #fringe.select!{|tile| @board[tile].val == '0'}
         end
     end
 
@@ -48,8 +46,6 @@ class Minesweeper
         p "-----"
         until @game_over
              @board.render
-           
-            
             pos = player.get_pos
             if @board.valid_pos?(pos)
                 reveal(pos)
