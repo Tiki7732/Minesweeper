@@ -84,6 +84,7 @@ class Board
         elsif y < 0 || y >= @grid.length
             return false            
         end 
+        return false if !@grid[x][y].hidden?
         true
     end 
 
