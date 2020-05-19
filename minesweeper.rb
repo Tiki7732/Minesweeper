@@ -4,7 +4,7 @@ require_relative 'player'
 class Minesweeper
 
     def initialize
-        @board = Board.new
+        @board = Board.new()
         @game_over = false
     end
 
@@ -16,8 +16,18 @@ class Minesweeper
     def reveal_fringe(pos)
         #debugger
         fringe = @board.fringe_tiles(pos)
-        fringe.select {|fringe_tile| fringe_tile if !@board[fringe_tile].bomb? || !@board[fringe_tile].flagged?}
-        fringe.each {|tile| reveal(tile)}
+        fringe.reject!{|tile| tile if @board[tile].bomb? || @board[tile].flagged?}
+        while !fringe.empty?
+            first_tile = fringe.first
+            if @board[first_tile].val == "0"
+                fringe.concat(@board.fringe_tiles(first_tile))
+                fringe.reject!{|tile| tile if @board[tile].bomb? || @board[tile].flagged?}
+                reveal(fringe.shift)
+            else
+                reveal(fringe.shift)
+            end
+            #fringe.select!{|tile| @board[tile].val == '0'}
+        end
     end
 
     def render()
@@ -47,8 +57,7 @@ class Minesweeper
                 "That was not a valid move"
                 pos = player.get_pos
             end
-            if @board[pos].val == "0"
-                reveal_fringe(pos)
+            reveal_fringe(pos) if @board[pos].val == "0"
         end
         p "Game over!"
         @board.show_bombs
