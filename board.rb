@@ -3,9 +3,11 @@ require 'byebug'
 class Board
 
     attr_reader :grid
+    attr_accessor :bomb_count
     def initialize(size = 9, level = 1)
         @grid = Array.new(size){Array.new(size) {Tile.new}}
-        populate((size / 4 * 3) * level)
+        @bomb_count = (size / 4 * 3) * level 
+        populate(@bomb_count)
     end
 
     def populate(amount)
@@ -28,6 +30,14 @@ class Board
         end 
     end
 
+    def flag(pos)
+        x, y = pos
+        @bomb_count -= 1 if @grid[x][y].bomb?
+        @grid[x][y].flagged = true
+        @grid[x][y].hidden = false
+        @grid[x][y].val = 'F'
+    end
+
     def render
         @grid.each do |row|
             print "|"
@@ -43,6 +53,13 @@ class Board
             end
             print "\n"
         end
+    end
+
+    def all_tiles_reveald?
+        @grid.each do |row|
+            return true if row.all?{|tile| !tile.hidden?}
+        end
+        return false
     end
 
     def [](pos)
@@ -101,8 +118,9 @@ class Board
 
 end
 
-# b = Board.new(10,10)
-# b.render
+b = Board.new()
+b.render
+p b.all_tiles_reveald?
 # print "\n"
 # b.show_bombs
 # b.reveal_tile([1,2])
