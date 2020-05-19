@@ -11,15 +11,13 @@ class Minesweeper
     def reveal(pos)
         @board.reveal_tile(pos)
         @game_over = true if @board[pos].bomb?
-        # if @board[pos].val = "0"
-        #     @board.fringe_tiles(pos).each do |fringe_tile| 
-        #         if @board[fringe_tile].val = "0"
-        #             self.reveal(fringe_tile)
-        #         elsif !@board[fringe_tile].bomb? || !@board[fringe_tile.flagged]
-        #             @board.reveal_tile(fringe_tile)
-        #         end
-        #     end
-        # end
+    end
+
+    def reveal_fringe(pos)
+        #debugger
+        fringe = @board.fringe_tiles(pos)
+        fringe.select {|fringe_tile| fringe_tile if !@board[fringe_tile].bomb? || !@board[fringe_tile].flagged?}
+        fringe.each {|tile| reveal(tile)}
     end
 
     def render()
@@ -49,11 +47,8 @@ class Minesweeper
                 "That was not a valid move"
                 pos = player.get_pos
             end
-            if @board[pos].val = "0"
-                fringe = @board.fringe_tiles(pos).select {|fringe_tile| fringe_tile if !@board[fringe_tile].bomb? || !@board[fringe_tile].flagged?}
-                debugger
-                fringe.each {|tile| reveal(tile)}
-            end
+            if @board[pos].val == "0"
+                reveal_fringe(pos)
         end
         p "Game over!"
         @board.show_bombs
