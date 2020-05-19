@@ -5,8 +5,8 @@ class Player
         @name = name
     end
 
-    def get_pos
-        print "#{@name} please enter a postion: "
+    def get_input
+        print "#{@name} make your move: "
         pos = gets.chomp
         parse_pos(pos)
     end
