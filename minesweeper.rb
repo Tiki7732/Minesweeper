@@ -40,23 +40,56 @@ class Minesweeper
         @game_over
     end
 
+    def won?
+        true if @board.bomb_count == 0 #|| @board.all_tiles_revealed?
+    end
+
+    def parse_pos(pos)
+        pos = pos.split(",").map!{|int| Integer(int)}
+    end
+
+    def get_pos
+        print "\nEnter a position: "
+        pos = gets.chomp
+        pos = parse_pos(pos)
+        if @board.valid_pos?(pos)
+            return pos
+        else
+            p "That wasn't a valid position"
+            get_pos
+        end
+    end
+
     def run
         player = Player.new("Laurent")
         @board.show_board
         p "-----"
-        until @game_over
-             @board.render
-            pos = player.get_pos
-            if @board.valid_pos?(pos)
-                reveal(pos)
+        until game_over? || won?
+            @board.render
+            print "\n#{player.name} enter your move: "
+            move = gets.chomp
+            case move
+            when 'reveal'
+                @pos = get_pos
+                reveal(@pos)
+                reveal_fringe(@pos) if @board[@pos].val == "0"
+            when 'flag'
+                @pos = get_pos
+                @board.flag(@pos)
+            when 'quit'
+                @game_over = true
             else
-                "That was not a valid move"
-                pos = player.get_pos
+                p "Sorry that command was not recognized"
+                p "Valid commands are 'reveal' or 'flag'"
             end
-            reveal_fringe(pos) if @board[pos].val == "0"
         end
-        p "Game over!"
-        @board.show_bombs
+        if game_over?
+            p "Game over!"
+            @board.show_bombs
+        else
+            p "You won!"
+            @board.show_board
+        end
     end
 
 end
