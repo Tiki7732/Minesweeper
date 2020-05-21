@@ -2,6 +2,7 @@ require_relative 'board'
 require_relative 'tile'
 require_relative 'player'
 require 'yaml'
+require 'colorize'
 class Minesweeper
 
     def initialize
@@ -56,17 +57,17 @@ class Minesweeper
         end
     end
 
-    def get_pos
-        print "\nEnter a position: "
-        pos = gets.chomp
-        pos = parse_pos(pos)
-        if @board.valid_pos?(pos)
-            return pos
-        else
-            p "That wasn't a valid position"
-            get_pos
-        end
-    end
+    # def get_pos
+    #     print "\nEnter a position: "
+    #     pos = gets.chomp
+    #     pos = parse_pos(pos)
+    #     if @board.valid_pos?(pos)
+    #         return pos
+    #     else
+    #         p "That wasn't a valid position"
+    #         get_pos
+    #     end
+    # end
 
     def run
         player = Player.new("Laurent")

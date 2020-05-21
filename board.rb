@@ -44,8 +44,6 @@ class Board
             row.each do |tile|
                 if tile.hidden?
                     print ' '
-                elsif tile.val == "0"
-                    print '_'
                 else
                     tile.to_s
                 end
@@ -76,8 +74,9 @@ class Board
         @grid.each do |row|
             print "|"
             row.each do |tile|
-               print tile.val if tile.bomb?
-               print " " if !tile.bomb?
+                tile.hidden = false if tile.bomb?
+                print tile.to_s if tile.bomb?
+                print " " if !tile.bomb?
                 print "|"
             end
             print "\n"
