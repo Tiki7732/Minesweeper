@@ -1,6 +1,7 @@
 require_relative 'board'
 require_relative 'tile'
 require_relative 'player'
+require 'yaml'
 class Minesweeper
 
     def initialize
@@ -46,6 +47,13 @@ class Minesweeper
 
     def parse_pos(pos)
         pos = pos.split(",").map!{|int| Integer(int)}
+        if @board.valid_pos?(pos)
+            return pos
+        else
+            print "That wasn't a valid position, please try again: "
+            pos = gets.chomp
+            parse_pos(pos)
+        end
     end
 
     def get_pos
@@ -67,20 +75,24 @@ class Minesweeper
         until game_over? || won?
             @board.render
             print "\n#{player.name} enter your move: "
-            move = gets.chomp
+            move, pos = gets.chomp.split(" ")
             case move
             when 'reveal'
-                @pos = get_pos
+                @pos = parse_pos(pos)
                 reveal(@pos)
                 reveal_fringe(@pos) if @board[@pos].val == "0"
             when 'flag'
-                @pos = get_pos
+                @pos = parse_pos(pos)
                 @board.flag(@pos)
+            when 'save'
+                File.open("save.yml" , "w") {|file| file.write(@board.to_yaml)}
             when 'quit'
                 @game_over = true
+            when 'load'
+                @board = YAML.load(File.read("save.yml"))
             else
                 p "Sorry that command was not recognized"
-                p "Valid commands are 'reveal' or 'flag'"
+                p "Valid commands are 'reveal', 'flag', 'save, load, or 'quit"
             end
         end
         if game_over?
