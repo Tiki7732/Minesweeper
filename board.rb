@@ -39,8 +39,11 @@ class Board
     end
 
     def render
-        @grid.each do |row|
-            print "|"
+        print "  "
+        @grid.each_index {|ind| print " " + ind.to_s}
+        print "\n"
+        @grid.each_with_index do |row, index_1|
+            print "#{index_1} |"
             row.each do |tile|
                 if tile.hidden?
                     print ' '
@@ -49,7 +52,9 @@ class Board
                 end
                 print "|"
             end
-            print "\n"
+             print "\n"
+           
+           
         end
     end
 
@@ -71,8 +76,11 @@ class Board
     end
 
     def show_bombs
-        @grid.each do |row|
-            print "|"
+        print "  "
+        @grid.each_index {|ind| print " " + ind.to_s}
+        print "\n"
+        @grid.each_with_index do |row, index_1|
+            print "#{index_1} |"
             row.each do |tile|
                 tile.hidden = false if tile.bomb?
                 print tile.to_s if tile.bomb?
@@ -105,10 +113,13 @@ class Board
     end 
 
     def show_board
-        @grid.each do |row|
-            print "|"
+        print "  "
+        @grid.each_index {|ind| print " " + ind.to_s}
+        print "\n"
+        @grid.each_with_index do |row, index_1|
+            print "#{index_1} |"
             row.each do |tile|
-               print tile.val
+               print tile.to_s
                 print "|"
             end
             print "\n"
@@ -117,8 +128,8 @@ class Board
 
 end
 
-# b = Board.new()
-# b.render
+#  b = Board.new()
+#  b.render
 # p b.all_tiles_reveald?
 # print "\n"
 # b.show_bombs
