@@ -43,7 +43,7 @@ class Minesweeper
     end
 
     def won?
-        true if @board.bomb_count == 0 #|| @board.all_tiles_revealed?
+        true if @board.bomb_count == 0 
     end
 
     def parse_pos(pos)
