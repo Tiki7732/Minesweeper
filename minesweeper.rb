@@ -6,7 +6,7 @@ require 'colorize'
 class Minesweeper
 
     def initialize
-        @board = Board.new()
+        
         @game_over = false
     end
 
@@ -61,8 +61,12 @@ class Minesweeper
         print "Who's playing? "
         name = gets.chomp
         player = Player.new(name)
-        p "Valid commands are 'reveal', 'flag', 'save, load, or 'quit"
+        @board = Board.new()
+       #@board.show_board
+
         until game_over? || won?
+            system("clear")
+            p "Valid commands are 'reveal', 'flag', 'save, load, or 'quit"
             @board.render    
             print "\n#{player.name} enter your move: "
             move, pos = gets.chomp.split(" ")
