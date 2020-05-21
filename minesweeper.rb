@@ -57,24 +57,13 @@ class Minesweeper
         end
     end
 
-    # def get_pos
-    #     print "\nEnter a position: "
-    #     pos = gets.chomp
-    #     pos = parse_pos(pos)
-    #     if @board.valid_pos?(pos)
-    #         return pos
-    #     else
-    #         p "That wasn't a valid position"
-    #         get_pos
-    #     end
-    # end
-
-    def run
-        player = Player.new("Laurent")
-        @board.show_board
-        p "-----"
+    def run()
+        print "Who's playing? "
+        name = gets.chomp
+        player = Player.new(name)
+        p "Valid commands are 'reveal', 'flag', 'save, load, or 'quit"
         until game_over? || won?
-            @board.render
+            @board.render    
             print "\n#{player.name} enter your move: "
             move, pos = gets.chomp.split(" ")
             case move
